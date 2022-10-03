@@ -1,11 +1,10 @@
+import ToDoList from "./Componentes/toDoList/ToDoList";
 
 
 function App() {
   return (
     <>
-    <div>
-      texto
-    </div>
+    <ToDoList/>
     </>
   );
 }
