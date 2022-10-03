@@ -30,10 +30,19 @@ const ListaDeTareas = ({ listaDeTareas }) => {
         <input type="checkbox" checked={verBorradas} onChange={visibilidadBorradas} id="verBorradas" />
         <label htmlFor="verBorradas">Ver eliminadas</label>
         
+        <div>
         {
-          listaDeTareas.map((tarea) => !tarea.borrada && <Tareas key={tarea.id.toString()}
+          listaDeTareas.map((tarea) => (!tarea.borrada && tarea.activa) && <Tareas key={tarea.id.toString()}
           tarea={tarea} setchildHook={setchildHook} />)
         }
+        </div>
+        <div>
+        {
+          listaDeTareas.map((tarea) => (!tarea.borrada && !tarea.activa) && <Tareas key={tarea.id.toString()}
+          tarea={tarea} setchildHook={setchildHook} />)
+        }
+        </div>
+
       </div>
 
 
