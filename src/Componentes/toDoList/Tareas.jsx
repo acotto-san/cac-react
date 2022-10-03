@@ -1,16 +1,33 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
-const Tareas = ({tarea}) => {
+const Tareas = ({ tarea, setchildHook }) => {
 
-    const borrarTarea = () => {
-        tarea.borrada = true;
-    }
+  const actualizarPadre = () => {
+    setchildHook((prev) => !prev)
+  }
+
+  const cambiarBorrada = () => {
+    tarea.borrada = !tarea.borrada;
+    actualizarPadre()
+  }
+
+  const handleChange = () => {
+    tarea.activa = !tarea.activa
+    actualizarPadre()
+  }
+
 
   return (
-   <>
-    <li> nombre: {tarea.nombre} id: {tarea.id}</li>
-    <button onClick={borrarTarea}>Borrame</button>
-   </>
+    <>
+      <li className={!tarea.activa ? "strikethrough" : undefined}>
+        <input type="checkbox" checked={!tarea.activa} onChange={handleChange} />
+
+        {tarea.nombre}
+
+        <button onClick={cambiarBorrada}>{tarea.borrada ? "RESTAURAR" : "BORRAR"}</button>
+      </li>
+
+    </>
   )
 }
 

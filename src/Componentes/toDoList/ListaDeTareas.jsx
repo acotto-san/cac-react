@@ -1,17 +1,51 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import Tareas from './Tareas'
 
-const ListaDeTareas = ({listaDeTareas}) => {
+const ListaDeTareas = ({ listaDeTareas }) => {
 
-    
+  const [childHook, setchildHook] = useState(false)
+  const [verBorradas, setVerBorradas] = useState(false)
 
-    const listaTareasActivas = listaDeTareas.map( (tarea) => 
-        !tarea.borrada && <Tareas key={tarea.id.toString()} tarea={tarea}/>
-    )
+  const listaBorradas = () => {
+    return listaDeTareas.map((tarea) => tarea.borrada && <Tareas key={tarea.id.toString()}
+      tarea={tarea} setchildHook={setchildHook} />)
+  }
+
+  const visibilidadBorradas = () => {
+    setVerBorradas((prev) => !prev)
+  }
+
+  const hayTareasBorradas = () => {
+    return listaDeTareas.find((tarea) => tarea.borrada)
+  }
+
+
 
   return (
     <>
-    {listaTareasActivas}
+
+      <div className='lista-de-tareas'>
+        <h3>Lista de tareas</h3>
+        
+        <input type="checkbox" checked={verBorradas} onChange={visibilidadBorradas} id="verBorradas" />
+        <label htmlFor="verBorradas">Ver eliminadas</label>
+        
+        {
+          listaDeTareas.map((tarea) => !tarea.borrada && <Tareas key={tarea.id.toString()}
+          tarea={tarea} setchildHook={setchildHook} />)
+        }
+      </div>
+
+
+      {
+        (verBorradas && hayTareasBorradas()) &&
+        <>
+          <div className='lista-de-tareas-eliminadas'>
+            <h3>Tareas eliminadas</h3>
+            {listaBorradas()}
+          </div>
+        </>
+      }
     </>
   )
 }

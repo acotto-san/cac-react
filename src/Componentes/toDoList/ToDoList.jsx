@@ -2,37 +2,40 @@ import React, { useState , useEffect} from 'react'
 import ListaDeTareas from './ListaDeTareas'
 
 const ToDoList = () => {
+    const tareaEnBlanco = {
+        id : "",
+        nombre : "",
+        activa : true,
+        borrada : false
+    }
 
-    const [inputDelUsr, setInputDelUsr] = useState("")
     const [listaDeTareas, setListaDeTareas] = useState([])
+    const [tareaBorrador, settareaBorrador] = useState(tareaEnBlanco)
 
+
+    
     const handleChange = (e) => {
-        const { value } = e.target
-        setInputDelUsr(value)
+        const { name, value } = e.target
+        settareaBorrador({
+            ...tareaBorrador,
+            [name]:value,
+        })
     }
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        setListaDeTareas((prev) => [...prev, {
-            id : prev.length,
-            nombre : inputDelUsr,
-            descripcion : "",
-            activa : true,
-            borrada : false
+        setListaDeTareas((prev) => [...prev, {...tareaBorrador,
+            id: new Date().valueOf(),
             }])
-    }
-
-    const imprimirLista = () => {
-        console.log(listaDeTareas)
+        settareaBorrador(tareaEnBlanco)
     }
 
     return (
         <>
             <form onSubmit={handleSubmit}>
-                <input type="text" onChange={handleChange} />
-                <button type='submit'>Enviar</button>
+                <input required type="text" onChange={handleChange} name="nombre" value={tareaBorrador.nombre}/>
+                <button type='submit'>Agregar</button>
             </form>
-            <button onClick={imprimirLista}>Consultar lista</button>
             <ListaDeTareas listaDeTareas={listaDeTareas}/>
 
         </>
